@@ -1,4 +1,4 @@
-<?php
+<?php include 'header.php';
 
 $fullnameErr = $usernameErr = $emailErr = $phoneErr = $whatsappErr = $addressErr = $passwordErr = $confirmPasswordErr = $imageErr = "";
 $fullname = $username = $email = $phone = $whatsapp = $address = "";
@@ -211,7 +211,8 @@ function test_input($data) {
       <div id="global-error" class="error"><?php echo $globalError; ?></div>
     </form>
   </div>
-
+  <?php include 'footer.php'; ?>
   <script src="scripts.js"></script> 
 </body>
 </html>
+
