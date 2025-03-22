@@ -1,0 +1,89 @@
+.error {color: #FF0000;}
+input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-top: 6px;
+  margin-bottom: 16px;
+  background-color: white;
+}
+input[type=submit] {
+  background-color: #04AA6D;
+  color: white;
+  width: auto;
+  padding: 10px 20px;
+}
+.container {
+  background-color: #f1f1f1;
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+#message {
+  display: none;
+  background: #f1f1f1;
+  color: #000;
+  position: relative;
+  padding: 10px;
+  margin-top: 8px;
+  margin-left: 20px;
+}
+#message p {
+  padding: 8px 20px;
+  font-size: 14px;
+}
+.valid {color: green;}
+.valid:before {position: relative; left: -35px; content: "✔";}
+.invalid {color: red;}
+.invalid:before {position: relative; left: -35px; content: "✖";}
+.required {
+  color: red;
+}
+.section-header {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  color: darkgreen; 
+}
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+input.error-field {
+  border: 1px solid red;
+  background-color: #ffebee;
+}
+.show-password {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 10px;
+}
+.show-password input[type="checkbox"] {
+  margin-right: 10px;
+}
+.password-container {
+  display: flex;
+  align-items: flex-start;
+}
+.password-field {
+  flex: 1;
+}
+#global-error {
+  color: black; 
+  background-color: #ffebee; 
+  border: 1px solid red; 
+  padding: 10px;
+  border-radius: 4px;
+  margin-top: 16px;
+  margin-bottom: 16px; 
+  display: none; 
+}
+h2 {
+  text-align: center; 
+  margin-top: 20px; 
+  color: darkgreen; 
+}
