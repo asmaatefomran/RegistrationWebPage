@@ -1,19 +1,23 @@
 <?php
 // connection_to_database
 $serverName = "localhost";
-$username = "student2";
-$password = "password";
-$dbname = "user_registration";
+$username = "root";
+$password = "";
 
-$conn = mysqli_connect($serverName, $username, $password, $dbname);
+$conn = mysqli_connect($serverName, $username, $password);
 
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-// echo "Connected successfully";
 
-//create_table in an existance database 
-$sql = "CREATE TABLE IF NOT EXISTS User (
+// Create database 
+$sql = "CREATE DATABASE IF NOT EXISTS RegisterForm";
+if ($conn->query($sql) === TRUE) {
+    mysqli_select_db($conn, "RegisterForm");
+    // echo "Database created successfully";
+
+    //create_table in an existance database 
+    $sql = "CREATE TABLE IF NOT EXISTS User (
     id INT(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     full_name VARCHAR(50) NOT NULL,
     user_name VARCHAR(30) NOT NULL UNIQUE,
@@ -25,6 +29,10 @@ $sql = "CREATE TABLE IF NOT EXISTS User (
     submit_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 )";
 
+    if (!$conn->query($sql)) {
+        echo "Error creating table: " . $conn->error;
+    }
+}
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $fullname = $_POST["fullname"];
@@ -37,20 +45,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $Secure_password = password_hash($password, PASSWORD_DEFAULT);
 
     $sql = "INSERT INTO User (full_name, user_name, phone, whatsapp_number, address, password, email)
-                VALUES ('$fullname', '$username', '$phone', '$whatsapp', '$address', '$Secure_password', '$email')";
-
+            VALUES ('$fullname', '$username', '$phone', '$whatsapp', '$address', '$Secure_password', '$email')";
 
     if (mysqli_query($conn, $sql)) {
         // echo "Your submit has been recorded.<br>";
     } else {
-        echo "Error  " . $sql . "<br>" . mysqli_error($conn);
+        echo "Error: " . $sql . "<br>" . mysqli_error($conn);
     }
+
     //--------------------------------------------------------
     // to display all table in database
     /*  $sql = "SELECT * FROM User";
     $result = mysqli_query($conn, $sql);
     if (mysqli_num_rows($result) > 0) {
-        echo "<table border=1><tr><th>ID</th><th>Full Name</th><th>Username</th><th>Email</th><th>Phone</th><th>WhatsApp</th><th>Address</th><th>Registration Date</th></tr>";
+        echo "<table border=1><tr><th>ID</th><th>Full Name</th><th>Username</th><th>Email</th><th>Phone</th><th>WhatsApp</th><th>Address</th></tr>";
         while ($row = mysqli_fetch_assoc($result)) {
             echo "<tr><td>" . $row["id"] . "</td><td>" . $row["full_name"] . "</td><td>" . $row["user_name"] . "</td><td>" . $row["email"] . "</td><td>" . $row["phone"] . "</td><td>" . $row["whatsapp_number"] . "</td><td>" . $row["address"] . "</td></tr>";
         }
