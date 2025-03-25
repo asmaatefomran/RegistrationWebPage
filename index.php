@@ -1,4 +1,10 @@
-<?php include 'header.php';
+<?php
+session_start();
+if (isset($_SESSION['success-msg'])) {
+  echo '<div class="success-msg">' . $_SESSION['success-msg'] . '</div>';
+  unset($_SESSION['success-msg']);
+}
+include 'header.php';
 include 'DB_Ops.php';
 $fullnameErr = $usernameErr = $emailErr = $phoneErr = $whatsappErr = $addressErr = $passwordErr = $confirmPasswordErr = $imageErr = "";
 $fullname = $username = $email = $phone = $whatsapp = $address = "";

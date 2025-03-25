@@ -48,7 +48,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             VALUES ('$fullname', '$username', '$phone', '$whatsapp', '$address', '$Secure_password', '$email')";
 
     if (mysqli_query($conn, $sql)) {
-        // echo "Your submit has been recorded.<br>";
+        $_SESSION['success-msg'] = "Registration completed successfully";
+        header("Location: " . $_SERVER['PHP_SELF']);
+        exit();
     } else {
         echo "Error: " . $sql . "<br>" . mysqli_error($conn);
     }
