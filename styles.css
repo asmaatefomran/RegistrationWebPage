@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&family=Lobster&family=Playfair+Display:wght@600&display=swap');
 .error {color: #FF0000;}
 input {
   width: 100%;
@@ -20,6 +21,7 @@ input[type=submit] {
   padding: 20px;
   max-width: 800px;
   margin: 0 auto;
+  margin-bottom: 50px;
 }
 #message {
   display: none;
@@ -89,26 +91,37 @@ h2 {
 }
 
 header {
-  background-color: #04AA6D;
+  background-color: rgb(152, 225, 152);
   color: white;
-  padding: 15px 0;
+  padding: 10px 20px;
   text-align: center;
   font-size: 1.5em;
+  
 }
 
 .navbar {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 0 20px;
+  justify-content: space-between;
+  height: 60px;
 }
 
 .navbar h2 {
   margin: 0;
-  font-size: 1.5em;
+  font-size: 50px;
+  position: absolute;
+  left: 17%;
+  transform: translateX(-50%);
+  font-family: 'Lobster', cursive;
+  background: linear-gradient(45deg, #15aa58, #010f09); 
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent; 
+  font-weight: bold;
 }
 
 nav ul {
+  color: white;
   list-style-type: none;
   padding: 0;
   margin: 0;
@@ -116,105 +129,111 @@ nav ul {
 }
 
 nav ul li {
+  color: white;
   display: inline-block;
   margin: 0 15px;
 }
 
+
 nav ul li a:hover {
-  text-decoration: none;
-  color: white;
+  text-decoration: white;
+  color: rgb(255, 255, 255);
   font-weight: bold;
   font-size: 16px;
   transition: color 0.3s ease-in-out;
 }
 
 nav ul li a i {
+  color: black;
   margin-right: 8px; 
 }
 
 footer {
-  background-color: #333;
+  background-color: #686464;
   color: white;
   text-align: center;
-  padding: 10px 0;
-  margin-top: 20px;
-  position: relative;
-  width: 100%;
-}
-
-footer p {
-  margin: 0;
+  padding: 0px 0;
   font-size: 14px;
 }
 
-.footer-container { 
-  display: flex; 
-  justify-content: space-between;
-  align-items: center; 
-  max-width: 1000px; 
-  margin: auto; 
-  flex-wrap: wrap; 
-  padding: 15px; 
-  gap: 10px;
-}
-
-.footer-content {
+.footer-text {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap;
   max-width: 1000px;
-  margin: auto;
-  padding: 15px;
+  margin: 0 auto;
+  padding: 10px;
+}
+
+.social-icons {
+  display: flex;
+  gap: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.social-icons a {
+  color: white;
+  font-size: 18px;
+  transition: color 0.3s;
+}
+
+.social-icons a:hover {
+  color: #dcff5c;
 }
 
 .footer-links {
   display: flex;
   gap: 15px;
-  font-size: 14px;
+  justify-content: center;
 }
 
 .footer-links a {
   color: white;
   text-decoration: none;
+  transition: color 0.3s;
 }
 
 .footer-links a:hover {
-  text-decoration: underline;
+color: #dcff5c;
 }
 
-.social-icons {
+.contact-info {
+  text-align: left;
+  font-size: 13px;
   display: flex;
-  align-items: center;
-  gap: 10px;
-  justify-content: flex-start;
+  flex-direction: column; 
+  align-items: center; 
 }
 
-.social-icons a {
-  display: inline-block;
-  font-size: 20px;
-  width: 40px;
-  height: 40px;
-  line-height: 40px;
-  text-align: center;
-  background: #444;
-  color: white;
-  border-radius: 50%;
-  transition: 0.3s;
+.contact-info p {
+  margin: 3px 0;
 }
 
-.social-icons a:hover {
-  background: #ffcc00;
-  color: black;
+.contact-info i {
+  margin-right: 5px;
 }
 
-.footer-text {
-  display: flex;
-  gap: 15px;
+footer p {
+  margin-top: 0px;
   font-size: 14px;
-  align-items: center;
-  
 }
+.logo {
+  width: 100px; 
+  height: auto;
+  margin-right: 10px;
+}
+
+.footer-section {
+  font-size: 20px;
+  font-weight: bold;
+  color: rgb(0, 0, 0);
+  text-align: center;
+  margin-bottom: 5px;
+  font-weight: bold; 
+}
+
 .success-msg {
   background: #f1f1f1;
   position: fixed;
@@ -239,4 +258,6 @@ footer p {
 @keyframes x {
   to { opacity: 0; visibility: hidden; }
 }
+
+
 
