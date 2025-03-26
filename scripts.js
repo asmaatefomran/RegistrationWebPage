@@ -92,4 +92,44 @@ function validateForm() {
   }
 
   return isValid;
+
+
+  
 }
+
+$(document).ready(function() {
+  // AJAX for username validation
+  $("#username").keyup(function() {
+      let username = $(this).val();
+      if (username.length > 2) {
+          $.ajax({
+              url: 'DB_Ops.php',
+              type: 'POST',
+              data: {validate: 'username', username: username},
+              success: function(response) {
+                  $("#usernameValidation").html(response);
+              }
+          });
+      } else {
+          $("#usernameValidation").html('');
+      }
+  });
+
+  // AJAX for email validation
+  $("#email").keyup(function() {
+      let email = $(this).val();
+      if (email.length > 5) {
+          $.ajax({
+              url: 'DB_Ops.php',
+              type: 'POST',
+              data: {validate: 'email', email: email},
+              success: function(response) {
+                  $("#emailValidation").html(response);
+              }
+          });
+      } else {
+          $("#emailValidation").html('');
+      }
+  });
+});
+

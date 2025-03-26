@@ -14,9 +14,10 @@ if ($conn->connect_error) {
 $sql = "CREATE DATABASE IF NOT EXISTS RegisterForm";
 if ($conn->query($sql) === TRUE) {
     mysqli_select_db($conn, "RegisterForm");
-    // echo "Database created successfully";
+      // echo "Database created successfully";
 
-    //create_table in an existance database 
+    
+    // create_table in an existing database 
     $sql = "CREATE TABLE IF NOT EXISTS User (
     id INT(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     full_name VARCHAR(50) NOT NULL,
@@ -27,14 +28,44 @@ if ($conn->query($sql) === TRUE) {
     address VARCHAR(255),
     password VARCHAR(255) NOT NULL,
     submit_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-)";
+    )";
 
     if (!$conn->query($sql)) {
         echo "Error creating table: " . $conn->error;
     }
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+//username validation
+if (isset($_POST['validate']) && $_POST['validate'] == "username") {
+    $username = $_POST['username'];
+    $username_query = "SELECT user_name FROM User WHERE user_name = ?";
+    $query_stmt = $conn->prepare($username_query);
+    $query_stmt->bind_param("s", $username);
+    $query_stmt->execute();
+    $query_stmt->store_result();
+    
+    if ($query_stmt->num_rows > 0) {
+        echo "<span style='color: red;'>Username already exists!</span>";
+    }
+    exit();
+}
+
+//email validation 
+if (isset($_POST['validate']) && $_POST['validate'] == "email") {
+    $email = $_POST['email'];
+    $email_query = "SELECT email FROM User WHERE email = ?";
+    $query_stmt = $conn->prepare($email_query);
+    $query_stmt->bind_param("s", $email);
+    $query_stmt->execute();
+    $query_stmt->store_result();
+    
+    if ($query_stmt->num_rows > 0) {
+        echo "<span style='color: red;'>Email is already registered!</span>";
+    }
+    exit();
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST['validate'])) {
     $fullname = $_POST["fullname"];
     $username = $_POST["username"];
     $email = $_POST["email"];
@@ -44,18 +75,46 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST["psw"];
     $Secure_password = password_hash($password, PASSWORD_DEFAULT);
 
-    $sql = "INSERT INTO User (full_name, user_name, phone, whatsapp_number, address, password, email)
-            VALUES ('$fullname', '$username', '$phone', '$whatsapp', '$address', '$Secure_password', '$email')";
-
-    if (mysqli_query($conn, $sql)) {
-        $_SESSION['success-msg'] = "Registration completed successfully";
-        header("Location: " . $_SERVER['PHP_SELF']);
-        exit();
+    // usename and email validation 
+    $check_both_query = "SELECT user_name, email FROM User WHERE user_name = ? OR email = ?";
+    $query_stmt = $conn->prepare($check_both_query);
+    $query_stmt->bind_param("ss", $username, $email);
+    $query_stmt->execute();
+    $query_stmt->store_result();
+    
+    if ($query_stmt->num_rows > 0) {
+        $query_stmt->bind_result($existing_username, $existing_email);
+        $query_stmt->fetch();
+        
+        $error_msg = "";
+        if ($existing_username == $username) {
+            $error_msg .= "Username already exists! ";
+        }
+        if ($existing_email == $email) {
+            $error_msg .= "Email is already registered!";
+        }
+        
+        echo "<span style='color: red;'>$error_msg</span>";
     } else {
-        echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+        $query_stmt->close();
+
+        $sql = "INSERT INTO User (full_name, user_name, phone, whatsapp_number, address, password, email)
+                VALUES (?, ?, ?, ?, ?, ?, ?)";
+        $query_stmt = $conn->prepare($sql);
+        $query_stmt->bind_param("sssssss", $fullname, $username, $phone, $whatsapp, $address, $Secure_password, $email);
+
+        if ($query_stmt->execute()) {
+            $_SESSION['success-msg'] = "Registration completed successfully";
+            header("Location: " . $_SERVER['PHP_SELF']);
+            exit();
+        } else {
+            echo "Error: " . $query_stmt->error;
+        }
+        $query_stmt->close();
     }
 
-    //--------------------------------------------------------
+
+     //--------------------------------------------------------
     // to display all table in database
     /*  $sql = "SELECT * FROM User";
     $result = mysqli_query($conn, $sql);
@@ -80,4 +139,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     //     echo "ID: {$row['id']}, Full Name: {$row['full_name']}, Username: {$row['user_name']}, Email: {$row['email']}, Phone: {$row['phone']}, WhatsApp: {$row['whatsapp_number']}, Address: {$row['address']}}";
     // }
 }
+
 mysqli_close($conn);
+?>
