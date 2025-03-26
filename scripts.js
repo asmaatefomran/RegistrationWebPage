@@ -98,7 +98,7 @@ function validateForm() {
 }
 
 $(document).ready(function() {
-  // AJAX for username validation
+  //username validation
   $("#username").keyup(function() {
       let username = $(this).val();
       if (username.length > 2) {
@@ -115,7 +115,7 @@ $(document).ready(function() {
       }
   });
 
-  // AJAX for email validation
+  //email validation
   $("#email").keyup(function() {
       let email = $(this).val();
       if (email.length > 5) {
