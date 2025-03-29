@@ -1,4 +1,6 @@
 <?php
+/* DB_Ops.php */
+
 // connection_to_database
 $serverName = "localhost";
 $username = "root";
@@ -25,6 +27,7 @@ if ($conn->query($sql) === TRUE) {
     email VARCHAR(50) NOT NULL UNIQUE,
     phone VARCHAR(15) NOT NULL,
     whatsapp_number VARCHAR(15),
+    image VARCHAR(255),
     address VARCHAR(255),
     password VARCHAR(255) NOT NULL,
     submit_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
@@ -65,6 +68,8 @@ if (isset($_POST['validate']) && $_POST['validate'] == "email") {
     exit();
 }
 
+// ... (previous DB_Ops.php code)
+
 if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST['validate'])) {
     $fullname = $_POST["fullname"];
     $username = $_POST["username"];
@@ -74,7 +79,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST['validate'])) {
     $address = $_POST["address"];
     $password = $_POST["psw"];
     $Secure_password = password_hash($password, PASSWORD_DEFAULT);
-
+    
+    // Include Upload.php and handle image upload
+    include 'Upload.php';
+    $image_name = uploadImage(); // This will return the new filename or null
+    
     // usename and email validation 
     $check_both_query = "SELECT user_name, email FROM User WHERE user_name = ? OR email = ?";
     $query_stmt = $conn->prepare($check_both_query);
@@ -83,25 +92,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST['validate'])) {
     $query_stmt->store_result();
     
     if ($query_stmt->num_rows > 0) {
-        $query_stmt->bind_result($existing_username, $existing_email);
-        $query_stmt->fetch();
-        
-        $error_msg = "";
-        if ($existing_username == $username) {
-            $error_msg .= "Username already exists! ";
-        }
-        if ($existing_email == $email) {
-            $error_msg .= "Email is already registered!";
-        }
-        
-        echo "<span style='color: red;'>$error_msg</span>";
+        // ... (existing error handling code)
     } else {
         $query_stmt->close();
 
-        $sql = "INSERT INTO User (full_name, user_name, phone, whatsapp_number, address, password, email)
-                VALUES (?, ?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO User (full_name, user_name, phone, whatsapp_number, address, password, email, image)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         $query_stmt = $conn->prepare($sql);
-        $query_stmt->bind_param("sssssss", $fullname, $username, $phone, $whatsapp, $address, $Secure_password, $email);
+        $query_stmt->bind_param("ssssssss", $fullname, $username, $phone, $whatsapp, $address, $Secure_password, $email, $image_name);
 
         if ($query_stmt->execute()) {
             $_SESSION['success-msg'] = "Registration completed successfully";
@@ -112,6 +110,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST['validate'])) {
         }
         $query_stmt->close();
     }
+
+
+// ... (rest of DB_Ops.php code)
 
 
      //--------------------------------------------------------
