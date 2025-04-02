@@ -168,9 +168,12 @@ function test_input($data)
       <br><br>
 
       <label>WhatsApp Number</label>
-      <input type="text" name="whatsapp" value="<?php echo htmlspecialchars($whatsapp); ?>" class="<?php echo !empty($whatsappErr) ? 'error-field' : ''; ?>">
-      <span class="error"><?php echo $whatsappErr; ?></span>
+      <input type="text" name="whatsapp" value="<?php echo htmlspecialchars($whatsapp); ?>" id="whatsappInput">
+      <button type="button" onclick="validateWhatsApp()" id="validateWhatsappBtn">Validate WhatsApp</button>
+      <span class="error" id="whatsappErr"><?php echo $whatsappErr; ?></span>
       <br><br>
+
+
 
       <label>Upload Image</label>
       <input type="file" name="user_image" accept=".jpg, .jpeg, .png, .gif" class="<?php echo !empty($imageErr) ? 'error-field' : ''; ?>">
