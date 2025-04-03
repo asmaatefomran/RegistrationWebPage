@@ -225,6 +225,7 @@ function test_input($data)
   </div>
   <?php include 'footer.php'; ?>
   <script src="scripts.js"></script>
+  <script src="API_Ops.js"></script>
 </body>
 
 </html>
