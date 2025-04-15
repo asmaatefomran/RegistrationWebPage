@@ -154,8 +154,8 @@ $(document).ready(function() {
 });
 
 
-function valide(){
-  let isvalite=validateForm();
+ async function valide(){
+  const isValid = await validateForm();
   if(isvalite)console.log("done");
   else console.log("not");
 }
