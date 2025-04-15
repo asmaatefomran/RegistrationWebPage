@@ -1,12 +1,13 @@
 <?php
 /*index.php*/
 session_start();
+include 'header.php';
+include 'DB_Ops.php';
 if (isset($_SESSION['success-msg'])) {
   echo '<div class="success-msg">' . $_SESSION['success-msg'] . '</div>';
   unset($_SESSION['success-msg']);
 }
-include 'header.php';
-include 'DB_Ops.php';
+
 $fullnameErr = $usernameErr = $emailErr = $phoneErr = $whatsappErr = $addressErr = $passwordErr = $confirmPasswordErr = $imageErr = "";
 $fullname = $username = $email = $phone = $whatsapp = $address = "";
 $globalError = "";
@@ -144,7 +145,7 @@ function test_input($data)
   <h2>Register in the Form</h2>
 
   <div class="container">
-    <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" enctype="multipart/form-data" onsubmit="return validateForm()">
+    <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" enctype="multipart/form-data" onsubmit="return submitForm(event)">
       <div class="section-header">Contact Information</div>
 
       <label>Full Name</label>
@@ -173,7 +174,7 @@ function test_input($data)
       <span class="error" id="whatsappErr"><?php echo $whatsappErr; ?></span>
       <br><br>
 
-
+      <button type="button" onclick="valide()" id="validate">Validate</button>
 
       <label>Upload Image</label>
       <input type="file" name="user_image" accept=".jpg, .jpeg, .png, .gif" class="<?php echo !empty($imageErr) ? 'error-field' : ''; ?>">

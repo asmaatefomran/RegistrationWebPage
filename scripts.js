@@ -72,11 +72,12 @@ myInput.onkeyup = function() {
   }
 }
 
-function validateForm() {
-  var isValid = true;
-  var inputs = document.querySelectorAll("input[type='text'], input[type='password'], input[type='file']");
+async function validateForm() {
+  let isValid = true;
+  const inputs = document.querySelectorAll("input[type='text'], input[type='password'], input[type='file']");
+  
   inputs.forEach(function(input) {
-    if (input.value.trim() === "") {
+    if (input.value.trim() === "" && input.name !== "whatsapp") {
       input.classList.add("error-field");
       isValid = false;
     } else {
@@ -84,18 +85,37 @@ function validateForm() {
     }
   });
 
-  if (!isValid) {
-    document.getElementById("global-error").style.display = "block";
-    document.getElementById("global-error").textContent = "You must fill in all of the form fields.";
-  } else {
-    document.getElementById("global-error").style.display = "none";
+  const whatsappInput = document.querySelector("input[name='whatsapp']");
+  if (whatsappInput.value.trim() === "") {
+    whatsappInput.classList.add("error-field");
+    isValid = false;
+  } else if (isValid) {
+    const isWhatsAppValid = await validateWhatsApp();
+    if (!isWhatsAppValid) {
+      whatsappInput.classList.add("error-field");
+      isValid = false;
+    }
   }
 
+  const errorElement = document.getElementById("global-error");
+  errorElement.style.display = isValid ? "none" : "block";
+  errorElement.textContent = isValid ? "" : "Please correct the errors in the form.";
+
   return isValid;
-
-
-  
 }
+
+async function submitForm(event) {
+  event.preventDefault(); 
+  const isValid = await validateForm();
+  
+  if (isValid) {
+      event.target.submit();
+  } else {
+      document.getElementById("global-error").style.display = "block";
+      document.getElementById("global-error").textContent = "Please correct the errors in the form.";
+  }
+}
+
 
 $(document).ready(function() {
   //username validation
@@ -133,3 +153,9 @@ $(document).ready(function() {
   });
 });
 
+
+function valide(){
+  let isvalite=validateForm();
+  if(isvalite)console.log("done");
+  else console.log("not");
+}
