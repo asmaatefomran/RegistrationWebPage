@@ -71,10 +71,10 @@ myInput.onkeyup = function() {
     length.classList.add("invalid");
   }
 }
-async function validateForm() {
+
+function validateForm() {
   var isValid = true;
   var inputs = document.querySelectorAll("input[type='text'], input[type='password'], input[type='file']");
- 
   inputs.forEach(function(input) {
     if (input.value.trim() === "") {
       input.classList.add("error-field");
@@ -87,20 +87,14 @@ async function validateForm() {
   if (!isValid) {
     document.getElementById("global-error").style.display = "block";
     document.getElementById("global-error").textContent = "You must fill in all of the form fields.";
-    return false;
   } else {
     document.getElementById("global-error").style.display = "none";
   }
 
-  
-  const whatsappValid = await validateWhatsApp();
-  if (!whatsappValid) {
-    document.getElementById("global-error").style.display = "block";
-    document.getElementById("global-error").textContent = "Please provide a valid WhatsApp number.";
-    return false;
-  }
+  return isValid;
 
-  return true;
+
+  
 }
 
 $(document).ready(function() {
