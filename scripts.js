@@ -153,9 +153,3 @@ $(document).ready(function() {
   });
 });
 
-
- async function valide(){
-  const isValid = await validateForm();
-  if(isvalite)console.log("done");
-  else console.log("not");
-}

@@ -174,7 +174,6 @@ function test_input($data)
       <span class="error" id="whatsappErr"><?php echo $whatsappErr; ?></span>
       <br><br>
 
-      <button type="button" onclick="valide()" id="validate">Validate</button>
 
       <label>Upload Image</label>
       <input type="file" name="user_image" accept=".jpg, .jpeg, .png, .gif" class="<?php echo !empty($imageErr) ? 'error-field' : ''; ?>">
