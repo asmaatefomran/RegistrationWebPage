@@ -3,11 +3,23 @@
 session_start();
 include 'header.php';
 include 'DB_Ops.php';
-if (isset($_SESSION['success-msg'])) {
-  echo '<div class="success-msg">' . $_SESSION['success-msg'] . '</div>';
-  unset($_SESSION['success-msg']);
-}
 
+if (isset($_SESSION['error-msg'])): ?>
+  <div class="error-msg" style="color: red;">
+      <?= $_SESSION['error-msg'] ?>
+  </div>
+  <?php 
+  
+  if (isset($_SESSION['error_fields'])) {
+      echo '<script>';
+      foreach ($_SESSION['error_fields'] as $field) {
+          echo "document.querySelector('[name=\"{$field}\"]').classList.add('error-field');";
+      }
+      echo '</script>';
+  }
+  unset($_SESSION['error-msg']);
+  unset($_SESSION['error_fields']);
+endif;
 $fullnameErr = $usernameErr = $emailErr = $phoneErr = $whatsappErr = $addressErr = $passwordErr = $confirmPasswordErr = $imageErr = "";
 $fullname = $username = $email = $phone = $whatsapp = $address = "";
 $globalError = "";

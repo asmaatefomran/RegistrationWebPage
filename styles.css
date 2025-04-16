@@ -1,5 +1,20 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&family=Lobster&family=Playfair+Display:wght@600&display=swap');
 .error {color: #FF0000;}
+.error-message {
+  color: red;
+  background-color: #ffeeee;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid red;
+  border-radius: 4px;
+}
+
+#usernameValidation, #emailValidation {
+  display: block;
+  margin-top: 5px;
+  font-size: 0.9em;
+}
+
 input {
   width: 100%;
   padding: 12px;

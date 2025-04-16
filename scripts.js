@@ -120,36 +120,42 @@ async function submitForm(event) {
 $(document).ready(function() {
   //username validation
   $("#username").keyup(function() {
-      let username = $(this).val();
+      let username = $(this).val().trim();
       if (username.length > 2) {
           $.ajax({
               url: 'DB_Ops.php',
               type: 'POST',
               data: {validate: 'username', username: username},
+            
               success: function(response) {
-                  $("#usernameValidation").html(response);
-              }
+                if ($("#usernameValidation").length === 0) {
+                    $(this).after('<span id="usernameValidation"></span>');
+                }
+                $("#usernameValidation").html(response);
+            }
           });
-      } else {
-          $("#usernameValidation").html('');
-      }
+       }
+   
   });
 
   //email validation
   $("#email").keyup(function() {
-      let email = $(this).val();
+      let email = $(this).val().trim();
       if (email.length > 5) {
           $.ajax({
               url: 'DB_Ops.php',
               type: 'POST',
               data: {validate: 'email', email: email},
+             
               success: function(response) {
-                  $("#emailValidation").html(response);
-              }
+                if ($("#emailValidation").length === 0) {
+                    $(this).after('<span id="emailValidation"></span>');
+                }
+                $("#emailValidation").html(response);
+            }
           });
-      } else {
-          $("#emailValidation").html('');
-      }
+        }
+    
   });
 });
 
